@@ -1,24 +1,24 @@
 /* 
-POSZCZEGÓLNE KOMENDY URUCHAMIAMY ZAZNACZAJ¥C JE A NASTÊPNIE KLIKAJ¥C EXECUTE LUB F5
+POSZCZEGÃ“LNE KOMENDY URUCHAMIAMY ZAZNACZAJÂ¥C JE A NASTÃŠPNIE KLIKAJÂ¥C EXECUTE LUB F5
  */ 
 
 --TWORZENIE BAZY
 CREATE DATABASE s293125;
 
---URZYWANIE UTWORZONEJ BAZY
+--UZYWANIE UTWORZONEJ BAZY
 USE s293125;
 
 --TWORZENIE SCHEMY
 CREATE SCHEMA firma;
 
---SPRAWDZAMY CZY SCHEMA ZOSTA£A UTWORZONA
+--SPRAWDZAMY CZY SCHEMA ZOSTAÂ£A UTWORZONA
 select *
 from information_schema.schemata;
 
 --TWORZENIE ROLI
 CREATE ROLE ksiegowosc
 
---NADAWANIE UPRAWNIEÑ
+--NADAWANIE UPRAWNIEÃ‘
 GRANT SELECT TO ksiegowosc 
 
 --DODAWANIE TABELI
@@ -27,7 +27,7 @@ id_pracownika UNIQUEIDENTIFIER NOT NULL PRIMARY KEY DEFAULT NEWID(),
 imie VARCHAR(20) NOT NULL,
 nazwisko VARCHAR(20) NOT NULL,
 adres VARCHAR(50),
-telefon VARCHAR(20) --DO ZASTANOWIENIA SIÊ Z KIERUNKOWYM... NA RAZIE ZOSTAWIAM TAK
+telefon VARCHAR(20) --DO ZASTANOWIENIA SIÃŠ Z KIERUNKOWYM... NA RAZIE ZOSTAWIAM TAK
 )
 
 CREATE TABLE firma.godziny(
@@ -63,7 +63,7 @@ FOREIGN KEY (id_pensji) REFERENCES firma.pensja_stanowisko(id_pensji) ON DELETE 
 FOREIGN KEY (id_premii) REFERENCES firma.premia(id_premii) ON DELETE CASCADE
 )
 
---TWORZENIE INDEKSÓW
+--TWORZENIE INDEKSÃ“W
 CREATE INDEX index_pracownicy
 ON firma.pracownicy (nazwisko, imie);
 
@@ -73,13 +73,13 @@ ON firma.pensja_stanowisko (stanowisko, kwota);
 CREATE INDEX index_premia
 ON firma.premia (rodzaj, kwota);
 
---KOMENTARZE DO TABEL DO UZUPE£NIENA W POSTGRES
+--KOMENTARZE DO TABEL DO UZUPEÂ£NIENA W POSTGRES
 
-COMMENT ON TABLE firma.pracownicy is 'tabela przechowywuj¹ca pracowników';
-COMMENT ON TABLE firma.godziny is 'tabela przechowywuj¹ca godziny';
-COMMENT ON TABLE firma.pensja_stanowisko is 'tabela przechowywuj¹ca stanowisko i pensje do nich';
-COMMENT ON TABLE firma.premia is 'tabela przechowywuj¹ca premie przyznawane pracownikom';
-COMMENT ON TABLE firma.wynagrodzenie is 'tabela przechowywuj¹ca wynagrodzenie pracownika';
+COMMENT ON TABLE firma.pracownicy is 'tabela przechowywujÂ¹ca pracownikÃ³w';
+COMMENT ON TABLE firma.godziny is 'tabela przechowywujÂ¹ca godziny';
+COMMENT ON TABLE firma.pensja_stanowisko is 'tabela przechowywujÂ¹ca stanowisko i pensje do nich';
+COMMENT ON TABLE firma.premia is 'tabela przechowywujÂ¹ca premie przyznawane pracownikom';
+COMMENT ON TABLE firma.wynagrodzenie is 'tabela przechowywujÂ¹ca wynagrodzenie pracownika';
 
 
 --DODAWANIE POL DO TABELI GODZINY
@@ -89,7 +89,7 @@ ALTER TABLE firma.godziny ADD numer_tygodnia DATE;
 --ZMIANA TYPU POLA W TABELI PRACOWNICY
 ALTER TABLE firma.wynagrodzenie ALTER COLUMN data VARCHAR(50);
 
---WARTOSC POLA RODZAJ = BRAK (JA TO BYM ZROBI£ TRIGGEREM, I TAK TE¯ ZROBI£EM ALE NIE WIEM CZY O TO MU CHODZI£O :/)
+--WARTOSC POLA RODZAJ = BRAK (JA TO BYM ZROBIÂ£ TRIGGEREM, I TAK TEÂ¯ ZROBIÂ£EM ALE NIE WIEM CZY O TO MU CHODZIÂ£O :/)
 CREATE TRIGGER firma.setBrakIfPremiaIsNull ON firma.premia
 FOR INSERT 
 AS
@@ -98,18 +98,18 @@ AS
 		SET rodzaj = IIF(kwota = 0, 'brak', rodzaj)
 	END;
 
---WYPE£NIANIE TABELI
+--WYPEÂ£NIANIE TABELI
 INSERT INTO firma.pracownicy (id_pracownika, imie, nazwisko, adres, telefon) VALUES 
-('1EEA153C-7C3A-4F07-A9E3-0B06FA9119DF', 'Jan', 'Kowalski', 'Kraków', '123456789'),
+('1EEA153C-7C3A-4F07-A9E3-0B06FA9119DF', 'Jan', 'Kowalski', 'KrakÃ³w', '123456789'),
 ('33EDD913-A0E6-4B81-94AA-3E6080244EA2', 'Anna', 'Nowak', 'Krynica', '123456789'),
 ('4C03AF6D-01BB-4861-B697-58C741C754D2', 'Kamil', 'Loksz', 'Gdynia', '123456789'),
-('22D4F621-4899-436A-A049-5D7D7478765F', 'Krzysztof', 'Orczyk', 'Kraków', '123456789'),
+('22D4F621-4899-436A-A049-5D7D7478765F', 'Krzysztof', 'Orczyk', 'KrakÃ³w', '123456789'),
 ('0278D9E8-2CEC-40FC-AE9A-702DC493FC20', 'Janina', 'Wozowczyk', 'Gdynia', '123456789'),
-('6E536143-B779-42E5-8EF4-89E36B757655', 'Arkadiusz', 'Puzinowski', 'Kraków', '123456789'),
+('6E536143-B779-42E5-8EF4-89E36B757655', 'Arkadiusz', 'Puzinowski', 'KrakÃ³w', '123456789'),
 ('35907B42-000E-41B3-BD99-8D185FF5AF46', 'Ola', 'Tuszkiewicz', 'Tylicz', '123456789'),
-('3662F435-3A80-48B9-B8F2-9799B381650A', 'Andrzej', 'Caba', 'Kraków', '123456789'),
+('3662F435-3A80-48B9-B8F2-9799B381650A', 'Andrzej', 'Caba', 'KrakÃ³w', '123456789'),
 ('D07CF3B5-B20F-48D5-99B0-A3A1CF9608B6', 'Janusz', 'Nosacz', 'Radom', '123456789'),
-('F811F59C-A8E0-4D27-9E8F-C12B1C0F2A8D', 'Adelajda', 'Cabon', 'Poznañ', '123456789');
+('F811F59C-A8E0-4D27-9E8F-C12B1C0F2A8D', 'Adelajda', 'Cabon', 'PoznaÃ±', '123456789');
 
 INSERT INTO firma.godziny(id_godziny, data, liczba_godzin, id_pracownika, miesiac, numer_tygodnia) VALUES 
 ('D8FF6161-8098-47C6-B25D-0755E5EC0D4C', '2020.02.20', 160, '1EEA153C-7C3A-4F07-A9E3-0B06FA9119DF', '2020.02.01', '2020.02.01'),
@@ -125,7 +125,7 @@ INSERT INTO firma.godziny(id_godziny, data, liczba_godzin, id_pracownika, miesia
 
 INSERT INTO firma.pensja_stanowisko (id_pensji, stanowisko, kwota) VALUES 
 ('F0DB0D11-1DCC-4659-9A00-6CA192D1424D', 'Sekretarka', 2000),
-('CB25E50C-B19A-4BC0-8135-D8EF52A932A6', 'Sprz¹taczka', 1700),
+('CB25E50C-B19A-4BC0-8135-D8EF52A932A6', 'SprzÂ¹taczka', 1700),
 ('8BAB774C-82CD-4BFB-83CC-70D0E27A7AEE', 'Praktykant', 2300),
 ('A8F070CD-99FB-4C2F-872B-01918D9BA999', 'Ochroniarz', 1600),
 ('B150DA6C-6B82-4BDB-B5C3-F667CC2E911D', 'Informatyk', 4000),
@@ -137,8 +137,8 @@ INSERT INTO firma.pensja_stanowisko (id_pensji, stanowisko, kwota) VALUES
 
 INSERT INTO firma.premia (id_premii, rodzaj, kwota) VALUES
 ('8FE7B87D-3E06-4E75-BB2E-EA212516921E', 'roczna',1000),
-('701AAA7B-D4E3-41A6-82DE-ACB598781805', 'miesiêczna',50),
-('44DF8F33-9DB9-4E14-B18D-C948ACEFBF0E', 'pó³roczna',550),
+('701AAA7B-D4E3-41A6-82DE-ACB598781805', 'miesiÃªczna',50),
+('44DF8F33-9DB9-4E14-B18D-C948ACEFBF0E', 'pÃ³Â³roczna',550),
 ('323489D7-20C3-412C-B123-6217DFABAF03', '',0),
 ('FDD970A2-3391-4E96-9A33-BE1059E80E6C', 'dodatkowa',40),
 ('DA93A138-79D0-4843-B145-8E0796F07078', 'transportowa',30),
@@ -167,7 +167,7 @@ SELECT firma.pracownicy.id_pracownika, firma.pracownicy.nazwisko FROM firma.prac
 SELECT w.id_pracownika FROM firma.wynagrodzenie w, firma.pensja_stanowisko ps
 WHERE ps.id_pensji = w.id_pensji AND ps.kwota > 1000
 
---6C w tym wypadku trochê przekombinowane ale nie mog³em porównac pola UNIQUEIDENTIFIER do null
+--6C w tym wypadku trochÃª przekombinowane ale nie mogÂ³em porÃ³wnac pola UNIQUEIDENTIFIER do null
 DECLARE @myvar uniqueidentifier = NULL
 SELECT w.id_pracownika FROM firma.wynagrodzenie w, firma.pensja_stanowisko ps
 WHERE ((@myvar IS NULL AND w.id_premii IS NULL) OR (w.id_premii = @myvar)) AND ps.id_pensji = w.id_pensji AND ps.kwota > 2000
@@ -191,7 +191,7 @@ WHERE g.id_godziny = w.id_godziny AND w.id_pracownika = p.id_pracownika AND g.li
 SELECT p.imie, p.nazwisko FROM firma.pracownicy p, firma.pensja_stanowisko ps, firma.wynagrodzenie w
 WHERE w.id_pracownika = p.id_pracownika AND w.id_pensji = ps.id_pensji AND ps.kwota BETWEEN 1500 AND 3000
 
---6H i znów musia³em troszkê to rozbudowaæ 
+--6H i znÃ³w musiaÂ³em troszkÃª to rozbudowaÃ¦ 
 DECLARE @nullGuid uniqueidentifier = NULL
 SELECT p.imie, p.nazwisko FROM firma.wynagrodzenie w, firma.pensja_stanowisko ps, firma.godziny g, firma.pracownicy p
 WHERE ((@nullGuid IS NULL AND w.id_premii IS NULL) OR (w.id_premii = @nullGuid)) AND ps.id_pensji = w.id_pensji AND ps.kwota > 2000 AND g.id_godziny = w.id_godziny AND g.liczba_godzin > 160
@@ -217,7 +217,7 @@ WHERE p.id_pracownika = w.id_pracownika AND w.id_pensji = ps.id_pensji
 GROUP BY ps.stanowisko
 
 --7D
-SELECT AVG(ps.kwota) AS œrednia, MIN(ps.kwota) AS minimum, MAX(ps.kwota) as maksimum FROM firma.pensja_stanowisko ps
+SELECT AVG(ps.kwota) AS Âœrednia, MIN(ps.kwota) AS minimum, MAX(ps.kwota) as maksimum FROM firma.pensja_stanowisko ps
 WHERE ps.stanowisko = 'FrontEnd'
 
 --7E
@@ -262,7 +262,7 @@ join firma.wynagrodzenie w on w.id_pracownika = p.id_pracownika
 join firma.pensja_stanowisko ps on ps.id_pensji = w.id_pensji;
 
 --9
-select concat('Pracownik ', p.imie, ' ', p.nazwisko, ', w dniu ', w."data", ' otrzyma³ pensjê ca³kowit¹ na kwotê ', ps.kwota+pr.kwota,'z³, gdzie wynagrodzenie zasadnicze wynosi³o: ', ps.kwota, 'z³, premia: ', pr.kwota, 'z³. Liczba nadgodzin: ') as "raport" 
+select concat('Pracownik ', p.imie, ' ', p.nazwisko, ', w dniu ', w."data", ' otrzymaÂ³ pensjÃª caÂ³kowitÂ¹ na kwotÃª ', ps.kwota+pr.kwota,'zÂ³, gdzie wynagrodzenie zasadnicze wynosiÂ³o: ', ps.kwota, 'zÂ³, premia: ', pr.kwota, 'zÂ³. Liczba nadgodzin: ') as "raport" 
 from firma.pracownicy p join 
 firma.wynagrodzenie w on p.id_pracownika = w.id_pracownika 
 join firma.pensja_stanowisko ps on ps.id_pensji = w.id_pensji 
